@@ -1,6 +1,7 @@
 #include <ffmpipe/ffmpipe.h>
 #include <sstream>
 #include <iostream>
+#include <array>
 
 namespace ffmpipe
 {
@@ -60,8 +61,8 @@ static bool CreatePipePair(const char* name, HANDLE* out_read_pipe, HANDLE* out_
 
 Pipe::~Pipe()
 {
-    HANDLE invalid_handles[] = { m_stdin_r, m_stdin_w, m_stdout_r, m_stdout_w };
-    HANDLE null_handles[] = { m_event, m_procinfo.hProcess, m_procinfo.hThread };
+    std::array<HANDLE, 4> invalid_handles = { m_stdin_r, m_stdin_w, m_stdout_r, m_stdout_w };
+    std::array<HANDLE, 3> null_handles = { m_event, m_procinfo.hProcess, m_procinfo.hThread };
 
     for (HANDLE handle : null_handles)
     {
